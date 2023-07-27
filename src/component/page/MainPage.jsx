@@ -43,6 +43,40 @@ const Button = styled.button`
   border: none;
   cursor: pointer;
 `;
+const ModalContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 16px;
+  max-width: 480px;
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+`;
+
+const RankingTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+`;
+
+const RankingHeader = styled.th`
+  padding: 8px;
+  border-bottom: 2px solid #ccc;
+  text-align: left;
+`;
+
+const RankingRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+`;
+
+const RankingData = styled.td`
+  padding: 8px;
+`;
 function MainPage() {
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
@@ -184,7 +218,7 @@ const handleCheckAnswer = () => {
           onChange={(e) => setNum2(parseInt(e.target.value))}
         />
         <Button onClick={handleGenerateProblem}>문제 주세요!</Button>
-        <TitleText>정답 확인</TitleText>
+        <TitleText>정답 입력</TitleText>
         <InputLabel>이름</InputLabel>
         <InputField
           type="text"
@@ -201,7 +235,7 @@ const handleCheckAnswer = () => {
         <p>{message}</p>
         <RankingButton onClick={toggleModal}>랭킹 확인</RankingButton>
         <ModalOverlay show={showModal} onClick={toggleModal}>
-  <ModalContent>
+  {/* <ModalContent>
     <TitleText>랭킹</TitleText>
     <ul>
       {sortedRankings.map((rank, index) => (
@@ -212,6 +246,28 @@ const handleCheckAnswer = () => {
     </ul>
     <Button onClick={handleModalClose}>닫기</Button>
 
+  </ModalContent> */}
+  <ModalContent>
+    <TitleText>랭킹</TitleText>
+    <RankingTable>
+      <thead>
+        <tr>
+          <RankingHeader>순위</RankingHeader>
+          <RankingHeader>이름</RankingHeader>
+          <RankingHeader>점수</RankingHeader>
+        </tr>
+      </thead>
+      <tbody>
+        {sortedRankings.map((rank, index) => (
+          <RankingRow key={index}>
+            <RankingData>{index + 1}</RankingData>
+            <RankingData>{rank.username}</RankingData>
+            <RankingData>{rank.score}</RankingData>
+          </RankingRow>
+        ))}
+      </tbody>
+    </RankingTable>
+    <Button onClick={handleModalClose}>닫기</Button>
   </ModalContent>
 </ModalOverlay>
       </Container>
